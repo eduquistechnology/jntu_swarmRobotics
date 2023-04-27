@@ -1,20 +1,32 @@
 #include <ESP8266WiFi.h>
+WiFiClient client;
+WiFiServer server(80);
+const char* ssid = "abcd";
+const char* password = "abcd1234";
 
-const char* ssid = "your_wifi_ssid";
-const char* password = "your_wifi_password";
-
-void setup() {
-  Serial.begin(9600);
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
-  }
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+void setup() 
+{
+  Serial.begin(115200);
+  connectWiFi();
+  server.begin();
 }
 
-void loop() {
-  // Code here
+void loop() 
+{
+
+}
+
+void connectWiFi()
+{
+  Serial.println("Connecting to WIFI");
+  WiFi.begin(ssid, password);
+  while ((!(WiFi.status() == WL_CONNECTED)))
+  {
+    delay(300);
+    Serial.print("..");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("NodeMCU Local IP is : ");
+  Serial.print((WiFi.localIP()));
 }
